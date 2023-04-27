@@ -24,6 +24,51 @@ function Home_page() {
   };
 
   console.log("input", input);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleViewDetails = (Data_cat) => {
+    setSelectedItem(Data_cat);
+  };
+
+  const handleGoBack = () => {
+    setSelectedItem(null);
+  };
+
+  if (selectedItem) {
+    return (
+        <div className="App" style={{ padding: "50px" ,paddingLeft:"80px"}}>
+        <Container>
+          <Row>
+            <Col xs={6}>
+              <img
+                src={selectedItem.url}
+                alt="img"
+                widht= "400px"
+                height= "400px"
+               
+                className="responsive-image"
+                
+              />
+            </Col>
+            <Col>
+              <div style={{ padding: "20px" }}>
+                <Card style={{ width: "30rem", padding: "30px" , textAlign:"center" }}>
+                  <Card.Body>
+                    <Card.Title >{selectedItem.breed}</Card.Title>
+                    <Card.Text  style={{ textAlign:"start" ,paddingTop:"20px" }}>
+                    {selectedItem.description}
+                    </Card.Text>
+                    <Button variant="outline-secondary" onClick={handleGoBack} >Go Back</Button>
+                  </Card.Body>
+                </Card>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    );
+  }
+
 
  
   return (
@@ -31,7 +76,7 @@ function Home_page() {
       <div
         style={{
           backgroundImage:
-            "url(https://images.pexels.com/photos/35888/amazing-beautiful-breathtaking-clouds.jpg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+            "url(https://images.pexels.com/photos/1548865/pexels-photo-1548865.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)",
           backgroundRepeat: "no-repeat",
           backgroundAttachment: "fixed",
           backgroundSize: "cover",
@@ -123,10 +168,9 @@ function Home_page() {
                     >
                       {Data_cat.description}
                     </Card.Text>
-                  
-                    <Link to={`/cats/${Data_cat.id}/CatDetails`   }  >  <Button variant="outline-secondary">
+                    <Button variant="outline-secondary" onClick={() => handleViewDetails(Data_cat)} >
                       More Description{" "}
-                    </Button></Link> 
+                    </Button>
                   </Card.Body>
                 </Card>
               </div>
@@ -134,9 +178,12 @@ function Home_page() {
         </div>
       </div>
       {visibleCount < Data_cat.length && (
-        <Button variant="outline-secondary" onClick={handleShowMoreClick}>
+        <div style={{paddingBottom:"20px"}}> 
+  <Button variant="outline-secondary" onClick={handleShowMoreClick} >
           More Breeds
         </Button>
+        </div>
+      
       )}
     </>
   );
